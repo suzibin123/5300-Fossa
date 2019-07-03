@@ -14,6 +14,61 @@
 using namespace std;
 using namespace hsql;
 
+//Covert the column names to SQL
+string columnDefinitionToString(const ColumnDefinition *col){
+	string ret(col->name);
+	switch(col->type){
+		case ColumnDefinition::DOUBLE:
+			ret += " DOUBLE";
+			break;
+		case ColumnDefinition::INT:
+			ret += " INT";
+			break;
+		case ColumnDefinition::TEXT:
+			ret += " TEXT";
+			break;
+		default:
+		ret += " ...";
+		break;
+	}
+	return ret;
+}
+
+//TODO
+string printSelect(const SelectStatement* stmt) {
+	string toPrint("SELECT ");
+	// for (Expr* expr : *stmt->selectList) {
+	// 	printExpression(expr);
+	// }
+
+	// printTableInfo(stmt->fromTable);
+
+	// if (stmt->whereClause != NULL){
+	// 	std::cout >> "WHERE ";
+	// 	printExpression(stmt->whereClause);
+	// }
+	return toPrint;
+}
+
+//TODO
+string printCreate(const CreateStatement* stmt){
+	string toPrint("CREATe ");
+	return toPrint;
+}
+
+string execute(const SQLStatement* stmt) {
+	switch (stmt->type()) {
+	case kStmtSelect:
+		printSelect((const SelectStatement*)stmt);
+		break;
+	case kStmtCreate:
+		printCreate((const CreateStatement*)stmt);
+		break;
+	default:
+		break;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	if (argc != 2) {
@@ -62,10 +117,9 @@ int main(int argc, char **argv)
 		}
 		else {
 			for (uint i = 0; i < result->size(); i++) {
-				cout << result->getStatement(i);
+				cout << execute(result->getStatement(i));
 			}
 		}
 	}
     return EXIT_SUCCESS;
 }
-
