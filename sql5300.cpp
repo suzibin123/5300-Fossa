@@ -14,6 +14,76 @@
 using namespace std;
 using namespace hsql;
 
+string OperatorExpression( const Expr *expr);
+string printOutExpression(const Expr *expr);
+string printSelect(const SelectStatement* stmt);
+string printCreate(const CreateStatement* stmt);
+
+//print out operators expressions to string
+string OperatorExpression(const Expr* expr){
+	if(expr == NULL){
+		return "null";
+	}
+
+	string ret;
+
+	switch(expr->opType){
+		case Expr::SIMPLE_OP:
+			ret += expr->opChar;
+			break;
+		case Expr::AND:
+			ret += "AND";
+			break;
+		case Expr::OR:
+			ret += "OR";
+			break;
+		case Expr::NOT:
+			ret += "NOT";
+			break;
+		default:
+			break;
+	}
+	if(expr->expr2 != NULL){
+		ret += " " + printOutExpression(expr->expr2);
+	}
+	return ret;
+}
+
+//Abstract Syntax Tree to string
+string printOutExpression(const Expr *expr){
+	string ret;
+	switch(expr->type){
+		case kExprStar:
+			ret += "*";
+			break;
+		case kExprColumnRef:
+			ret += string(expr->table) + ".";
+			break;
+		case kExprLiteralString:
+			ret += expr -> name;
+			break;
+		case kExprLiteralFloat:
+			ret += to_string(expr->fval);
+			break;
+		case kExprLiteralInt:
+			ret += to_string(expr->ival);
+			break;
+		case kExprFunctionRef:
+			ret += string(expr->name) + "?" + expr->expr->name;
+			break;
+		case kExprOperator:
+			ret += OperatorExpression(expr);
+			break;
+		default:
+			ret += "???"; //to catch errors we're not aware of
+			break;
+	}
+	if(expr->alias != NULL){
+		ret += string(" AS ") + expr->alias;
+	} 
+	return ret;
+} 
+
 //Covert the column names to SQL
 string columnDefinitionToString(const ColumnDefinition *col){
 	string ret(col->name);
@@ -52,7 +122,7 @@ string printSelect(const SelectStatement* stmt) {
 
 //TODO
 string printCreate(const CreateStatement* stmt){
-	string toPrint("CREATe ");
+	string toPrint("CREATE ");
 	return toPrint;
 }
 
@@ -123,3 +193,4 @@ int main(int argc, char **argv)
 	}
     return EXIT_SUCCESS;
 }
+
