@@ -18,6 +18,7 @@ string OperatorExpression( const Expr *expr);
 string printOutExpression(const Expr *expr);
 string printSelect(const SelectStatement* stmt);
 string printCreate(const CreateStatement* stmt);
+string printTableInfo(const TableRef* table);
 
 //print out operators expressions to string
 string OperatorExpression(const Expr* expr){
@@ -26,6 +27,8 @@ string OperatorExpression(const Expr* expr){
 	}
 
 	string ret;
+
+	ret += printOutExpression(expr->expr) + " ";
 
 	switch(expr->opType){
 		case Expr::SIMPLE_OP:
@@ -57,8 +60,9 @@ string printOutExpression(const Expr *expr){
 			ret += "*";
 			break;
 		case kExprColumnRef:
-			ret += string(expr->table) + ".";
-			break;
+			if(expr->table != NULL){
+				ret += string(expr->table) + ".";
+			}
 		case kExprLiteralString:
 			ret += expr -> name;
 			break;
@@ -104,37 +108,107 @@ string columnDefinitionToString(const ColumnDefinition *col){
 	return ret;
 }
 
+string printTableInfo(const TableRef* table){
+	string ret;
+	switch (table->type){
+	case kTableName: 
+		ret +=(table->name);
+		if( table->alias != NULL){
+			ret += string(" AS ") + table->alias;
+		}
+		break; 
+	case kTableSelect: 
+		printSelect(table->select);
+		break; 
+	case kTableJoin: 
+		ret += printTableInfo(table->join->left);
+		switch(table->join->type){
+			case kJoinLeft:
+				ret += " Left join ";
+				printTableInfo(table->join->left);
+				break;
+			case kJoinRight:
+				ret += " Right join "; 
+				printTableInfo(table->join->right); 
+				break;
+			case kJoinInner:
+				ret += " Join "; 
+				printOutExpression(table->join->condition); 
+				break; 
+			default:
+				cout << "Not yet implemented" << endl;
+				break;
+		} 
+		ret += printTableInfo(table->join->right);
+		if (table->join->condition != NULL){
+			ret += " ON " + OperatorExpression(table->join->condition);
+		}
+		break;	
+	case kTableCrossProduct:
+		for(TableRef* tbl : *table->list) printTableInfo(tbl); 
+		break;
+	default:
+		cout << "Not yet implemented" << endl;
+		break;
+	 
+	}
+	return ret;
+}
+
+
 //TODO
 string printSelect(const SelectStatement* stmt) {
-	string toPrint("SELECT ");
-	// for (Expr* expr : *stmt->selectList) {
-	// 	printExpression(expr);
-	// }
+	string ret = "SELECT ";
+	bool comma = false;
+	for (Expr* expr : *stmt->selectList) {
+		if(comma){
+			ret += ", ";
+		}
+		ret += printOutExpression(expr);
+		comma = true;
+	}
 
-	// printTableInfo(stmt->fromTable);
+	ret += " FROM " + printTableInfo(stmt->fromTable);
 
-	// if (stmt->whereClause != NULL){
-	// 	std::cout >> "WHERE ";
-	// 	printExpression(stmt->whereClause);
-	// }
-	return toPrint;
+	if (stmt->whereClause != NULL){
+		std::cout << "WHERE " << endl;
+		ret += printOutExpression(stmt->whereClause);
+	}
+	return ret;
 }
 
 //TODO
 string printCreate(const CreateStatement* stmt){
-	string toPrint("CREATE ");
-	return toPrint;
+	string ret("CREATE TABLE ");
+	if(stmt->type != CreateStatement::kTable){
+		return ret + "...";
+	}
+	if(stmt->ifNotExists){
+		ret += "IF NOT EXIST ";
+	}
+	ret += string(stmt->tableName) + " (";
+	bool comma = false;
+	for (ColumnDefinition *col : *stmt->columns){
+		if(comma){
+			ret += ", ";
+		}
+		ret += columnDefinitionToString(col);
+		comma = true;
+	}
+	ret += ")";
+	return ret;
 }
 
 string execute(const SQLStatement* stmt) {
 	switch (stmt->type()) {
 	case kStmtSelect:
-		printSelect((const SelectStatement*)stmt);
+		return printSelect((const SelectStatement*)stmt);
 		break;
 	case kStmtCreate:
-		printCreate((const CreateStatement*)stmt);
+		return printCreate((const CreateStatement*)stmt);
 		break;
 	default:
+		return "Not implemented yet";
 		break;
 	}
 }
@@ -187,7 +261,7 @@ int main(int argc, char **argv)
 		}
 		else {
 			for (uint i = 0; i < result->size(); i++) {
-				cout << execute(result->getStatement(i));
+				cout << execute(result->getStatement(i)) << endl;
 			}
 		}
 	}
