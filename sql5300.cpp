@@ -22,9 +22,13 @@ string printTableInfo(const TableRef* table);
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
 *Helper function to spit out arithmetic and conditionals in SQL
 **/
+=======
+//print out operators expressions to string
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 //print out operators expressions to string
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -64,9 +68,13 @@ string OperatorExpression(const Expr* expr){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
 *Helper function to convert Abstract Syntax Tree to string
 **/
+=======
+//Abstract Syntax Tree to string
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 //Abstract Syntax Tree to string
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -101,7 +109,11 @@ string printOutExpression(const Expr *expr){
 		default:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			ret += "Invalid expression type"; //to catch errors we're not aware of
+=======
+			ret += "???"; //to catch errors we're not aware of
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 			ret += "???"; //to catch errors we're not aware of
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -118,9 +130,13 @@ string printOutExpression(const Expr *expr){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
 *Helper function to spit out variable type in SQL
 **/
+=======
+//Covert the column names to SQL
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 //Covert the column names to SQL
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -148,9 +164,12 @@ string columnDefinitionToString(const ColumnDefinition *col){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
 *Helper function to spit out Join operators, table names and alias
 **/
+=======
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
@@ -171,6 +190,7 @@ string printTableInfo(const TableRef* table){
 		ret += printTableInfo(table->join->left);
 		switch(table->join->type){
 			case kJoinLeft:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 				ret += " LEFT JOIN ";
@@ -214,6 +234,8 @@ string printTableInfo(const TableRef* table){
 =======
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
+=======
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 				ret += " Left join ";
 				printTableInfo(table->join->left);
 				break;
@@ -242,6 +264,9 @@ string printTableInfo(const TableRef* table){
 		break;
 	 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
+=======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -252,9 +277,13 @@ string printTableInfo(const TableRef* table){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
 *Helper function to print Select SQL Statement
 **/
+=======
+//TODO
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 //TODO
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -277,6 +306,7 @@ string printSelect(const SelectStatement* stmt) {
 	if (stmt->whereClause != NULL){
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		ret += " WHERE " + printOutExpression(stmt->whereClause);
 	}
 	if (stmt->order != NULL){
@@ -295,10 +325,15 @@ string printSelect(const SelectStatement* stmt) {
 		std::cout << "WHERE " << endl;
 		ret += printOutExpression(stmt->whereClause);
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
+=======
+		std::cout << "WHERE " << endl;
+		ret += printOutExpression(stmt->whereClause);
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 	}
 	return ret;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 /**
@@ -312,12 +347,17 @@ string printCreate(const CreateStatement* stmt){
 =======
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
+=======
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 //TODO
 string printCreate(const CreateStatement* stmt){
 	string ret("CREATE TABLE ");
 	if(stmt->type != CreateStatement::kTable){
 		return ret + "...";
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
+=======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
@@ -340,9 +380,12 @@ string printCreate(const CreateStatement* stmt){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
 *Helper function to handle different SQL queries
 **/
+=======
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
@@ -365,7 +408,10 @@ int main(int argc, char **argv)
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//Check for Command line paramenters, throw errors if there's more than two
+=======
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 >>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
@@ -377,11 +423,17 @@ int main(int argc, char **argv)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//Store cmd line arg directory path
 	char *envHome = argv[1];
 	DbEnv *myEnv = new DbEnv(0U);
 	
 	//create database env if one doesn't exist
+=======
+	char *envHome = argv[1];
+	DbEnv *myEnv = new DbEnv(0U);
+	
+>>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 =======
 	char *envHome = argv[1];
 	DbEnv *myEnv = new DbEnv(0U);
