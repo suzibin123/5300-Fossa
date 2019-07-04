@@ -2,6 +2,8 @@
 *@file sql5300.cpp - main entry for the relation manager's SQL shell
 *@author Kevin Lundeen, Nina Nguyen, Ashley Decollibus
 *@see "Seattle University, cpsc4300/5300, summer 2019"
+*@Milestone1
+*@July 3, 2019
 */
 
 #include <stdio.h>
@@ -20,21 +22,9 @@ string printSelect(const SelectStatement* stmt);
 string printCreate(const CreateStatement* stmt);
 string printTableInfo(const TableRef* table);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Helper function to spit out arithmetic and conditionals in SQL
 **/
-=======
-//print out operators expressions to string
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//print out operators expressions to string
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//print out operators expressions to string
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 string OperatorExpression(const Expr* expr){
 	if(expr == NULL){
 		return "null";
@@ -66,21 +56,9 @@ string OperatorExpression(const Expr* expr){
 	return ret;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Helper function to convert Abstract Syntax Tree to string
 **/
-=======
-//Abstract Syntax Tree to string
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//Abstract Syntax Tree to string
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//Abstract Syntax Tree to string
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 string printOutExpression(const Expr *expr){
 	string ret;
 	switch(expr->type){
@@ -107,19 +85,7 @@ string printOutExpression(const Expr *expr){
 			ret += OperatorExpression(expr);
 			break;
 		default:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 			ret += "Invalid expression type"; //to catch errors we're not aware of
-=======
-			ret += "???"; //to catch errors we're not aware of
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-			ret += "???"; //to catch errors we're not aware of
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-			ret += "???"; //to catch errors we're not aware of
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 			break;
 	}
 	if(expr->alias != NULL){
@@ -128,21 +94,9 @@ string printOutExpression(const Expr *expr){
 	return ret;
 } 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Helper function to spit out variable type in SQL
 **/
-=======
-//Covert the column names to SQL
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//Covert the column names to SQL
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//Covert the column names to SQL
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 string columnDefinitionToString(const ColumnDefinition *col){
 	string ret(col->name);
 	switch(col->type){
@@ -162,18 +116,9 @@ string columnDefinitionToString(const ColumnDefinition *col){
 	return ret;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Helper function to spit out Join operators, table names and alias
 **/
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 string printTableInfo(const TableRef* table){
 	string ret;
 	switch (table->type){
@@ -190,9 +135,6 @@ string printTableInfo(const TableRef* table){
 		ret += printTableInfo(table->join->left);
 		switch(table->join->type){
 			case kJoinLeft:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 				ret += " LEFT JOIN ";
 				break;
 			case kJoinRight:
@@ -231,65 +173,14 @@ string printTableInfo(const TableRef* table){
 	default:
 		cout << "Not yet implemented" << endl;
 		break;
-=======
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-				ret += " Left join ";
-				printTableInfo(table->join->left);
-				break;
-			case kJoinRight:
-				ret += " Right join "; 
-				printTableInfo(table->join->right); 
-				break;
-			case kJoinInner:
-				ret += " Join "; 
-				printOutExpression(table->join->condition); 
-				break; 
-			default:
-				cout << "Not yet implemented" << endl;
-				break;
-		} 
-		ret += printTableInfo(table->join->right);
-		if (table->join->condition != NULL){
-			ret += " ON " + OperatorExpression(table->join->condition);
-		}
-		break;	
-	case kTableCrossProduct:
-		for(TableRef* tbl : *table->list) printTableInfo(tbl); 
-		break;
-	default:
-		cout << "Not yet implemented" << endl;
-		break;
-	 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 	}
 	return ret;
 }
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Helper function to print Select SQL Statement
 **/
-=======
-//TODO
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//TODO
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-//TODO
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 string printSelect(const SelectStatement* stmt) {
 	string ret = "SELECT ";
 	bool comma = false;
@@ -304,9 +195,6 @@ string printSelect(const SelectStatement* stmt) {
 	ret += " FROM " + printTableInfo(stmt->fromTable);
 
 	if (stmt->whereClause != NULL){
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		ret += " WHERE " + printOutExpression(stmt->whereClause);
 	}
 	if (stmt->order != NULL){
@@ -317,25 +205,10 @@ string printSelect(const SelectStatement* stmt) {
 		} else {
 			std::cout << "DESCENDING ";
 		}
-=======
-		std::cout << "WHERE " << endl;
-		ret += printOutExpression(stmt->whereClause);
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-		std::cout << "WHERE " << endl;
-		ret += printOutExpression(stmt->whereClause);
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-		std::cout << "WHERE " << endl;
-		ret += printOutExpression(stmt->whereClause);
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 	}
 	return ret;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Heler function for CREATE SQL statement
 **/
@@ -344,23 +217,6 @@ string printCreate(const CreateStatement* stmt){
 	ret += "CREATE TABLE ";
 	if(stmt->type != CreateStatement::kTable){
 		return ret + "Table is invalid";
-=======
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-//TODO
-string printCreate(const CreateStatement* stmt){
-	string ret("CREATE TABLE ");
-	if(stmt->type != CreateStatement::kTable){
-		return ret + "...";
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 	}
 	if(stmt->ifNotExists){
 		ret += "IF NOT EXIST ";
@@ -378,18 +234,9 @@ string printCreate(const CreateStatement* stmt){
 	return ret;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
 *Helper function to handle different SQL queries
 **/
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 string execute(const SQLStatement* stmt) {
 	switch (stmt->type()) {
 	case kStmtSelect:
@@ -406,44 +253,17 @@ string execute(const SQLStatement* stmt) {
 
 int main(int argc, char **argv)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	//Check for Command line paramenters, throw errors if there's more than two
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 	if (argc != 2) {
 		cerr << "Usage: cpsc5300: dvenvpath" << endl;
 		return 1;
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	//Store cmd line arg directory path
 	char *envHome = argv[1];
 	DbEnv *myEnv = new DbEnv(0U);
 	
 	//create database env if one doesn't exist
-=======
-	char *envHome = argv[1];
-	DbEnv *myEnv = new DbEnv(0U);
-	
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-	char *envHome = argv[1];
-	DbEnv *myEnv = new DbEnv(0U);
-	
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
-=======
-	char *envHome = argv[1];
-	DbEnv *myEnv = new DbEnv(0U);
-	
->>>>>>> fb4690c44891367fd067d435a29731fd9b455943
 	try {
 		myEnv->open(envHome, DB_CREATE | DB_INIT_MPOOL, 0);
 	}
