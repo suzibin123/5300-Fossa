@@ -109,13 +109,12 @@ RecordIDs* SlottedPage::ids(void) {
 
 	RecordID* temp = new RecordID();
 
-	return{
-		for (u_int16_t i = 0; i < this->num_records; i++) {
-			if (get_header(size, loc, i) != 0) {
-				temp.push_back(i);
-			}
+	for (u_int16_t i = 0; i < this->num_records; i++) {
+		if (get_header(size, loc, i) != 0) {
+			temp.push_back(i);
 		}
 	}
+	return temp;
 }
 
 /******************SlottedPage protected functions implementation*************************/
